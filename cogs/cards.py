@@ -113,7 +113,7 @@ class CardCog(commands.Cog):
             # Brown seems fine, but going for more of a 'tan' look.
             return discord.Color.from_rgb(210, 180, 140)
         elif faction == 'sunny-lebeau':
-            return discord.Color.dark_gray()
+            return discord.Color.from_rgb(66, 66, 66)
         elif faction == 'apex':
             # _Really_ dark red.
             return discord.Color.from_rgb(31, 0, 0)
@@ -149,7 +149,7 @@ class CardCog(commands.Cog):
         card_keywords = f": {card['keywords']}" if 'keywords' in card else ''
         (card_subtypes, influence) = self.generate_header_for_card(card)
         card_attributes = f"**{card_type}{card_keywords}** ({card_subtypes}){influence}"
-        (card_body, errata) = self.clean_card_text(card['text'])
+        (card_body, errata) = self.clean_card_text(card.get('text', ""))
 
         text = f"{card_attributes}\n{card_body}"
 
