@@ -176,19 +176,6 @@ class CardCog(commands.Cog):
     def generate_image(self, card) -> str:
         return f"https://netrunnerdb.com/card_image/large/{card['code']}.jpg"
 
-    '''
-    @commands.command(name='test', hidden=True)
-    async def test_embed(self, ctx, *, card: str):
-        print(card)
-        user_query = self.strip_accents(card.strip('"'))
-        selector = self.searcher.get_top_n(user_query, [*self.cards.keys()], n=1)[0]
-
-        print(selector)
-        card = self.cards[selector]
-        embed = self.generate_embed(card)
-        await ctx.send(embed=embed)
-    '''
-
     @commands.command(name='force_reload', hidden=True)
     @commands.check_any(commands.is_owner())
     async def force_reload(self, ctx):
@@ -209,8 +196,8 @@ class CardCog(commands.Cog):
         elif len(image_results) > 0:
             queries = [ self.search_card(self.strip_accents(q)) for q in image_results[:self.config.getint('Configuration', 'MaxSearches')] ]
             urls = [ self.generate_image(self.cards[c]) for c in queries ]
-            for e in embeds:
-                await message.channel.send(urls)
+            for u in urls:
+                await message.channel.send(u)
 
 def setup(bot):
     bot.add_cog(CardCog(bot))
