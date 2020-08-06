@@ -6,3 +6,5 @@ Requirements:
 Usage:
 * Query for text by surrounding it in double square brackets (ex: [[Stimhack]])
 * Get the full image by surrounding it in double curly brackets (ex: {{Stimhack}})
+
+This project is licensed under the terms of the MIT license.
