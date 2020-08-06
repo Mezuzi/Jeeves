@@ -74,7 +74,7 @@ class CardCog(commands.Cog):
             emoji_text = emoji_text.replace(f'[{e}]', e_code)
 
         lines = emoji_text.splitlines()
-        return ('\n'.join(['' if t.startswith('<errata>') else md(t) for t in lines]), md(lines[-1]) if lines[-1].startswith('<errata>') else '')
+        return ('\n'.join(['' if t.startswith('<errata>') else md(t) for t in lines]), md(lines[-1]) if len(lines) > 0 and lines[-1].startswith('<errata>') else '')
 
     def generate_header_for_card(self, card) -> (str, str):
         # In order of appending:
