@@ -26,7 +26,17 @@ class CardCog(commands.Cog):
             'rez': '<:nrrez:740400425743941712>',
             'trash': '<:nrtrash:740399209697509436>',
             'subroutine': '<:nrsubroutine:740403693932904500>',
-            'link': ' <:nrlink:740682864559128716>' # Yes, there is a space here - the emoji looks *terrible* without it.
+            'link': ' <:nrlink:740682864559128716>', # Yes, there is a space here - the emoji looks *terrible* without it.
+            'weyland-consortium': '<:nrweyland:744275191714152548>',
+            'jinteki': '<:nrjinteki:744275192074993734>',
+            'haas-bioroid': '<:nrhaasbioroid:744275192142102600>',
+            'nbn': '<:nrnbn:744275191856758891>',
+            'anarch': '<:nranarch:744275191433134135>',
+            'shaper': '<:nrshaper:744275192028856430>',
+            'criminal': '<:nrcriminal:744275191974330440>',
+            'apex': '<:nrapex:744275777842970716>',
+            'adam': '<:nradam:744275777926856755>',
+            'sunny-lebeau': '<:nrsunny:744275778073788536>'
         }
 
         self.config = configparser.ConfigParser()
