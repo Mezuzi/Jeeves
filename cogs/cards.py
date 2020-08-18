@@ -174,7 +174,7 @@ class CardCog(commands.Cog):
 
         pack_info = '' if cycle_data['size'] == 1 else pack_data['name']
         cycle_info = f"{cycle_data['name']} #{card['position']}{' (Rotated)' if cycle_data['rotated'] else ''}"
-        misc_info = f"{card['faction_code'].replace('-', ' ').title()} {f'/ {pack_info} ' if pack_info else ''}/ {cycle_info}{f' - {errata}' if errata else ''}"
+        misc_info = f"{self.emojis[card['faction_code']] if card['faction_code'] in self.emojis else card['faction_code'].replace('-', ' ').title()} {f'/ {pack_info} ' if pack_info else ''}/ {cycle_info}{f' - {errata}' if errata else ''}"
 
         embed.set_footer(text=misc_info)
 
