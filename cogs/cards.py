@@ -16,14 +16,16 @@ class CardCog(commands.Cog):
         self.cards = dict()
         self.cycles = dict()
         self.packs = dict()
+        self.mwl = dict()
+
         self.emojis = {
             'interrupt': '<:nrinterrupt:740396491881054250>',
-            'agenda': '<:nragenda:740400605251633214>',
+            'agenda': ' <:nragenda:740400605251633214>', # Yes, there is a space here - the emoji looks *terrible* without it.
             'click': '<:nrclick:740399988953186324>',
             'credit': '<:nrcredit:740398541708722306>',
-            'mu': '<:nrmemory:740400262979518475>',
+            'mu': ' <:nrmemory:740400262979518475>',  # Yes, there is a space here - the emoji looks *terrible* without it.
             'recurring-credit': '<:nrrecurring:740399375884484617>',
-            'rez': '<:nrrez:740400425743941712>',
+            'rez': ' <:nrrez:740400425743941712>', # Yes, there is a space here - the emoji looks *terrible* without it.
             'trash': '<:nrtrash:740399209697509436>',
             'subroutine': '<:nrsubroutine:740403693932904500>',
             'link': ' <:nrlink:740682864559128716>', # Yes, there is a space here - the emoji looks *terrible* without it.
@@ -57,12 +59,17 @@ class CardCog(commands.Cog):
         # TODO - Marshel these packs into type-safe classes.
         pack_data = requests.get('https://netrunnerdb.com/api/2.0/public/packs').json()['data']
 
+        # TODO - Marshel the ban-list into type-safe classes.
+        # Also make it so it elegantly handles the different MWL cases.
+        mwl_data = requests.get('https://netrunnerdb.com/api/2.0/public/mwl').json()['data'][-1]
+
         # Since card-lookup by name is the most common, re-key the array into dict w/ names as keys. 
         # Also has a side-benefit of pulling only the most-recent version of a card in case of re-prints.
         self.cards = { self.strip_accents(x['title']): x for x in card_data }
 
         self.cycles = { x['code']: x for x in cycle_data }
         self.packs = { x['code']: x for x in pack_data }
+        self.mwl = mwl_data
 
     def strip_accents(self, text) -> str:
         return ''.join(c for c in unicodedata.normalize('NFKD', text) if unicodedata.category(c) != 'Mn').lower()
@@ -174,7 +181,9 @@ class CardCog(commands.Cog):
 
         pack_info = '' if cycle_data['size'] == 1 else pack_data['name']
         cycle_info = f"{cycle_data['name']} #{card['position']}{' (Rotated)' if cycle_data['rotated'] else ''}"
-        misc_info = f"{card['faction_code'].replace('-', ' ').upper() if card['faction_code'] == 'nbn' else card['faction_code'].replace('-', ' ').title()} {f'/ {pack_info} ' if pack_info else ''}/ {cycle_info}{f' - {errata}' if errata else ''}"
+        misc_info = '\n'.join(
+        [f"""{card['faction_code'].replace('-', ' ').upper() if card['faction_code'] == 'nbn' else card['faction_code'].replace('-', ' ').title()} {f'/ {pack_info} ' if pack_info else ''}/ {cycle_info}{f' - {errata}' if errata else ''}""",
+        (f"{self.mwl['name']} - Banned" if card['code'] in self.mwl['cards'] else "")])
 
         embed.set_footer(text=misc_info)
 
