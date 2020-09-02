@@ -104,7 +104,7 @@ class CardCog(commands.Cog):
             f"""{f"{card['cost']}{self.emojis['rez']}" if 'cost' in card and card['type_code'] in rez_costs else ""}""", # Should be merged but its clearer this way.
             f"""{f"{card['memory_cost']}{self.emojis['mu']}" if 'memory_cost' in card else ""}""", # 
             f"""{f"{card['strength']} Strength" if 'strength' in card else ""}""",
-            f"""{f"{card['trash_cost']}{self.emojis['trash']}" if 'trash-cost' in card else ""}""",
+            f"""{f"{card['trash_cost']}{self.emojis['trash']}" if 'trash_cost' in card else ""}""",
             f"""{f"{card['base_link']}{self.emojis['link']}" if 'base_link' in card else ""}""",
             f"""{
                 f"{(card['minimum_deck_size'] if card['minimum_deck_size'] else '∞')} / {(card['influence_limit'] if card['influence_limit'] else '∞')}" 
