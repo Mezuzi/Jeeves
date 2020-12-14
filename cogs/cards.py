@@ -96,12 +96,27 @@ class CardCog(commands.Cog):
     def generate_header_for_card(self, card) -> (str, str):
         # In order of appending:
         # Agenda Cost, Agenda Points, (Cost/Rez), Strength, Trash, Link, Influence Count, Influence Cost
-        rez_costs = ['asset', 'ice', 'upgrade']
+
+        f_cost = None
+        if 'type_code' in card and card['type_code'] != 'identity':
+            rez_costs = ['asset', 'ice', 'upgrade']        
+            has_cost_play = f"{self.emojis['credit']}" if card['type_code'] not in rez_costs else None
+            has_cost_rez = f"{self.emojis['credit']}" if card['type_code'] in rez_costs else None
+            f_emoji = ""
+            if has_cost_play:
+                f_emoji = has_cost_play
+            elif has_cost_rez:
+                f_emoji = has_cost_rez
+                
+            f_cost = f"""{card['cost'] if 'cost' in card 
+                and card['cost'] is not None 
+                and card['cost'] != 'None' 
+                else "X"}{f_emoji}"""
+
         headers = [
             f"""{f"{card['advancement_cost']}{self.emojis['rez']}" if 'advancement_cost' in card else ""}""",
             f"""{f"{card['agenda_points']}{self.emojis['agenda']}" if 'agenda_points' in card else ""}""",
-            f"""{f"{card['cost']}{self.emojis['credit']}" if 'cost' in card and card['type_code'] not in rez_costs else ""}""",
-            f"""{f"{card['cost']}{self.emojis['rez']}" if 'cost' in card and card['type_code'] in rez_costs else ""}""", # Should be merged but its clearer this way.
+            f_cost,
             f"""{f"{card['memory_cost']}{self.emojis['mu']}" if 'memory_cost' in card else ""}""", # 
             f"""{f"{card['strength']} Strength" if 'strength' in card else ""}""",
             f"""{f"{card['trash_cost']}{self.emojis['trash']}" if 'trash_cost' in card else ""}""",
