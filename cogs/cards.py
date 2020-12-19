@@ -27,7 +27,7 @@ class CardCog(commands.Cog):
             'recurring-credit': '<:nrrecurring:740399375884484617>',
             'rez': ' <:nrrez:740400425743941712>', # Yes, there is a space here - the emoji looks *terrible* without it.
             'trash': '<:nrtrash:740399209697509436>',
-            'subroutine': '<:nrsubroutine:740403693932904500>',
+            'subroutine': '↳',
             'link': ' <:nrlink:740682864559128716>', # Yes, there is a space here - the emoji looks *terrible* without it.
             'weyland-consortium': '<:nrweyland:744275191714152548>',
             'jinteki': '<:nrjinteki:744275192074993734>',
@@ -98,7 +98,7 @@ class CardCog(commands.Cog):
         # Agenda Cost, Agenda Points, (Cost/Rez), Strength, Trash, Link, Influence Count, Influence Cost
 
         f_cost = None
-        if 'type_code' in card and card['type_code'] != 'identity':
+        if 'type_code' in card and card['type_code'] != 'identity' and card['type_code'] != 'agenda':
             rez_costs = ['asset', 'ice', 'upgrade']        
             has_cost_play = f"{self.emojis['credit']}" if card['type_code'] not in rez_costs else None
             has_cost_rez = f"{self.emojis['credit']}" if card['type_code'] in rez_costs else None
@@ -169,8 +169,6 @@ class CardCog(commands.Cog):
     def generate_embed(self, card) -> discord.Embed:
         # A Discord embed is made up of several parts:
         # The 'title', where we will put the card name and uniqueness flag at.
-        title_unique = ('◆ ' if card['uniqueness'] else '')
-        title_card = card['title']
         title = f"{'◆ ' if card['uniqueness'] else ''}{card['title']}"
 
         # The 'url', where we will put a link to the NRDB card.
@@ -204,12 +202,28 @@ class CardCog(commands.Cog):
         embed.set_footer(text=misc_info)
 
         # The 'thumbnail', where we will put the card image in.
-        embed.set_thumbnail(url=self.generate_image(card))
+        embed.set_thumbnail(url=f"https://netrunnerdb.com/card_image/large/{card['code']}.jpg")
 
         return embed
 
-    def generate_image(self, card) -> str:
-        return f"https://netrunnerdb.com/card_image/large/{card['code']}.jpg"
+    def generate_image(self, card) -> discord.Embed:
+        title = f"{'◆ ' if card['uniqueness'] else ''}{card['title']}"
+        color = self.generate_color_for_faction(card['faction_code'])
+        embed = discord.Embed(title=title, url=f"https://netrunnerdb.com/en/card/{card['code']}", color=color)
+        embed.set_image(url=f"https://netrunnerdb.com/card_image/large/{card['code']}.jpg")
+        return embed
+
+    def generate_flavor(self, card) -> discord.Embed:
+        title = f"{'◆ ' if card['uniqueness'] else ''}{card['title']}"
+        color = self.generate_color_for_faction(card['faction_code'])
+        flavor = "*No flavor text.*"
+        if 'flavor' in card:
+            (txt, e) = self.clean_card_text(card['flavor'])
+            flavor = f"*{txt}*"
+
+        embed = discord.Embed(description=flavor, color=color)
+        embed.set_author(name=title, url=f"https://netrunnerdb.com/en/card/{card['code']}", icon_url=f"https://netrunnerdb.com/card_image/small/{card['code']}.jpg")
+        return embed
 
     @commands.command(name='force_reload', hidden=True)
     @commands.check_any(commands.is_owner())
@@ -221,6 +235,7 @@ class CardCog(commands.Cog):
     async def on_message(self, message):
         embed_results = re.findall('\[\[(.*?)\]\]', message.content)
         image_results = re.findall('\{\{(.*?)\}\}', message.content)
+        flavor_results = re.findall('<<(.*?)>>', message.content)
 
         if len(embed_results) > 0:
             queries = [ self.search_card(self.strip_accents(q)) for q in embed_results[:self.config.getint('Configuration', 'MaxSearches')] ]
@@ -232,7 +247,13 @@ class CardCog(commands.Cog):
             queries = [ self.search_card(self.strip_accents(q)) for q in image_results[:self.config.getint('Configuration', 'MaxSearches')] ]
             urls = [ self.generate_image(self.cards[c]) for c in queries ]
             for u in urls:
-                await message.channel.send(u)
+                await message.channel.send(embed=u)
+
+        elif len(flavor_results) > 0:
+            queries = [ self.search_card(self.strip_accents(q)) for q in flavor_results[:self.config.getint('Configuration', 'MaxSearches')] ]
+            flavors = [ self.generate_flavor(self.cards[c]) for c in queries ]
+            for f in flavors:
+                await message.channel.send(embed=f)
 
 def setup(bot):
     bot.add_cog(CardCog(bot))
