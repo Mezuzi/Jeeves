@@ -102,11 +102,8 @@ class CardCog(commands.Cog):
         # In order of appending:
         # Agenda Cost, Agenda Points, (Cost/Rez), Strength, Trash, Link, Influence Count, Influence Cost
 
-        def has_influence(code: str) -> str:
-            return code == 'identity' or code == 'agenda'
-
         f_cost = None
-        if 'type_code' in card and has_influence(card['type_code']):
+        if 'type_code' in card and card['type_code'] != 'identity' and card['type_code'] != 'agenda':
             rez_costs = ['asset', 'ice', 'upgrade']        
             has_cost_play = f"{self.emojis['credit']}" if card['type_code'] not in rez_costs else None
             has_cost_rez = f"{self.emojis['credit']}" if card['type_code'] in rez_costs else None
@@ -134,7 +131,7 @@ class CardCog(commands.Cog):
                 if 'influence_limit' in card and 'minimum_deck_size' in card else ""}"""
         ]
         return (', '.join(filter(None, headers)), f" {'●'*card['faction_cost']}{'○'*(5-card['faction_cost'])}"
-            if 'faction_cost' in card and 'type_code' in card and has_influence(card['type_code'])
+            if 'faction_cost' in card and 'type_code' in card and (card['type_code'] == 'identity' or card['type_code'] == 'agenda')
             else '')
 
     def generate_color_for_faction(self, faction: str) -> discord.Color:
