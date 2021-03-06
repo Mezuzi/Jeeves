@@ -92,7 +92,7 @@ class CardCog(commands.Cog):
 
             # Note - as Discord only supports a subset of markdown, we will need to handle list formatting ourselves.
             emoji_text = emoji_text.replace(f'<ul>', '\n')
-            emoji_text = emoji_text.replace(f'<li>', '•')
+            emoji_text = emoji_text.replace(f'<li>', '• ')
             emoji_text = emoji_text.replace(f'</li>', '\n')
 
         lines = emoji_text.splitlines()
