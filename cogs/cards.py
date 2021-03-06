@@ -90,6 +90,11 @@ class CardCog(commands.Cog):
         for e, e_code in self.emojis.items():
             emoji_text = emoji_text.replace(f'[{e}]', e_code)
 
+            # Note - as Discord only supports a subset of markdown, we will need to handle list formatting ourselves.
+            emoji_text = emoji_text.replace(f'<ul>', '\n')
+            emoji_text = emoji_text.replace(f'<li>', '•')
+            emoji_text = emoji_text.replace(f'</li>', '')
+
         lines = emoji_text.splitlines()
         return ('\n'.join(['' if t.startswith('<errata>') else md(t) for t in lines]), md(lines[-1]) if len(lines) > 0 and lines[-1].startswith('<errata>') else '')
 
@@ -125,7 +130,7 @@ class CardCog(commands.Cog):
                 f"{(card['minimum_deck_size'] if card['minimum_deck_size'] else '∞')} / {(card['influence_limit'] if card['influence_limit'] else '∞')}" 
                 if 'influence_limit' in card and 'minimum_deck_size' in card else ""}"""
         ]
-        return (', '.join(filter(None, headers)), f" {'●'*card['faction_cost']}" if 'faction_cost' in card else '')
+        return (', '.join(filter(None, headers)), f" {'●'*card['faction_cost']}{'○'*(5-card['faction_cost'])}" if 'faction_cost' in card else '')
 
     def generate_color_for_faction(self, faction: str) -> discord.Color:
         if faction == 'weyland-consortium':
