@@ -131,7 +131,10 @@ class CardCog(commands.Cog):
                 if 'influence_limit' in card and 'minimum_deck_size' in card else ""}"""
         ]
         return (', '.join(filter(None, headers)), f" {'●'*card['faction_cost']}{'○'*(5-card['faction_cost'])}"
-            if 'faction_cost' in card and 'type_code' in card and (card['type_code'] != 'identity' and card['type_code'] != 'agenda')
+            if ('faction_cost' in card and 'type_code' in card and 'faction_code' in card
+                and (card['type_code'] != 'identity' and 
+                    (card['type_code'] != 'agenda' or (card['type_code'] == 'agenda' and card['faction_code'] == 'neutral-corp'))
+            ))
             else '')
 
     def generate_color_for_faction(self, faction: str) -> discord.Color:
