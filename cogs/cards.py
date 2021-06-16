@@ -20,16 +20,16 @@ class CardCog(commands.Cog):
 
         # Emojis thanks to user qwitwa#9367 on Discord!
         self.emojis = {
-            'interrupt': '<:NISEI_INTERRUPT:854706842835615764>',
-            'agenda': '<:NISEI_AGENDA:854706842814251008>',
-            'click': '<:NISEI_CLICK:854706842869432330>',
-            'credit': '<:NISEI_CREDIT:854706842458652673>',
-            'mu': '<:NISEI_Mu:854706842873757776>',
-            'recurring-credit': '<:NISEI_RECURRING_CREDIT:854706842840203295>',
-            'rez': '<:NISEI_REZ_COST:854706842642677822>',
-            'trash': '<:NISEI_TRASH_ABILITY:854706842905870396>', # TODO - Use both trash and trash cost emojis.
+            'interrupt': '<:gninterrupt:854706842835615764>',
+            'agenda': '<:gnagenda:854706842814251008>',
+            'click': '<:gnclick:854706842869432330>',
+            'credit': '<:gncredit:854716895966265346>',
+            'mu': '<:gnmu:854706842873757776>',
+            'recurring-credit': '<:gnrecurring:854706842840203295>',
+            'rez': '<:gnrez:854706842642677822>',
+            'trash': '<:gntrashability:854706842905870396>', # TODO - Use both trash and trash cost emojis.
             'subroutine': '↳',
-            'link': ' <:NISEI_LINK:854706842957512734>', # Yes, there is a space here - the emoji looks *terrible* without it.
+            'link': ' <:gnlink:854706842957512734>', # Yes, there is a space here - the emoji looks *terrible* without it.
             'weyland-consortium': '<:nrweyland:744275191714152548>',
             'jinteki': '<:nrjinteki:744275192074993734>',
             'haas-bioroid': '<:nrhaasbioroid:744275192142102600>',
