@@ -18,17 +18,18 @@ class CardCog(commands.Cog):
         self.packs = dict()
         self.mwl = dict()
 
+        # Emojis thanks to user qwitwa#9367 on Discord!
         self.emojis = {
-            'interrupt': '<:nrinterrupt:740396491881054250>',
-            'agenda': ' <:nragenda:740400605251633214>', # Yes, there is a space here - the emoji looks *terrible* without it.
-            'click': '<:nrclick:740399988953186324>',
-            'credit': '<:nrcredit:740398541708722306>',
-            'mu': ' <:nrmemory:740400262979518475>',  # Yes, there is a space here - the emoji looks *terrible* without it.
-            'recurring-credit': '<:nrrecurring:740399375884484617>',
-            'rez': ' <:nrrez:740400425743941712>', # Yes, there is a space here - the emoji looks *terrible* without it.
-            'trash': '<:nrtrash:740399209697509436>',
+            'interrupt': '<:NISEI_INTERRUPT:854706842835615764>',
+            'agenda': '<:NISEI_AGENDA:854706842814251008>',
+            'click': '<:NISEI_CLICK:854706842869432330>',
+            'credit': '<:NISEI_CREDIT:854706842458652673>',
+            'mu': '<:NISEI_Mu:854706842873757776>',
+            'recurring-credit': '<:NISEI_RECURRING_CREDIT:854706842840203295>',
+            'rez': '<:NISEI_REZ_COST:854706842642677822>',
+            'trash': '<:NISEI_TRASH_ABILITY:854706842905870396>', # TODO - Use both trash and trash cost emojis.
             'subroutine': '↳',
-            'link': ' <:nrlink:740682864559128716>', # Yes, there is a space here - the emoji looks *terrible* without it.
+            'link': ' <:NISEI_LINK:854706842957512734>', # Yes, there is a space here - the emoji looks *terrible* without it.
             'weyland-consortium': '<:nrweyland:744275191714152548>',
             'jinteki': '<:nrjinteki:744275192074993734>',
             'haas-bioroid': '<:nrhaasbioroid:744275192142102600>',
