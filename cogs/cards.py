@@ -234,9 +234,24 @@ class CardCog(commands.Cog):
             (txt, e) = self.clean_card_text(card['flavor'])
             flavor = f"*{txt}*"
 
+        # let maxx swear!
+        if card['title'] == "MaxX: Maximum Punk Rock":
+            flavor = "*Fuck you, motherfucker!*"
+
         embed = discord.Embed(description=flavor, color=color)
         embed.set_author(name=title, url=f"https://netrunnerdb.com/en/card/{card['code']}", icon_url=f"https://netrunnerdb.com/card_image/small/{card['code']}.jpg")
         return embed
+
+
+    @commands.command(name='trans_agenda')
+    async def trans_agenda(self, message):
+        await message.channel.send('https://cdn.discordapp.com/attachments/732385125039472692/866103176067547156/the_trans_agenda.png')
+    @commands.command(name='holy_hell')
+    async def holy_hell(self, message):
+        await message.channel.send('https://cdn.discordapp.com/attachments/732385125039472692/868392291696533504/holy_hell.png')
+    @commands.command(name='timing')
+    async def timing(self, message):
+        await message.channel.send('https://cdn.discordapp.com/attachments/653990064207953921/837916163149135882/rulesRUNNNNNNN.png')
 
     @commands.command(name='force_reload', hidden=True)
     @commands.check_any(commands.is_owner())
