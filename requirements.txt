@@ -10,7 +10,7 @@ fuzzywuzzy==0.18.0
 idna==3.2
 markdownify==0.9.2
 multidict==5.1.0
-numpy==1.21.1
+numpy==1.22.0
 pycparser==2.20
 PyNaCl==1.4.0
 python-Levenshtein==0.12.2
