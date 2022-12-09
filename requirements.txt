@@ -2,7 +2,7 @@ aiohttp==3.7.4
 async-timeout==3.0.1
 attrs==21.2.0
 beautifulsoup4==4.9.3
-certifi==2021.5.30
+certifi==2022.12.7
 cffi==1.14.6
 chardet==4.0.0
 discord.py==1.7.3
